@@ -1,1 +1,1 @@
-from .zdppy_log import logger, config
+from .zdppy_log import logger, config, Log
