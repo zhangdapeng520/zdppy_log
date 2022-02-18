@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "zdppy_log"
 version = "0.1.0"
-description = ""
+description = "python日志工具"
 authors = ["zhangdapeng <pygosuperman@outlook.com>"]
 
 [tool.poetry.dependencies]

@@ -1,9 +1,15 @@
-from zdppy_log import logger
+from zdppy_log import logger, config
+
+config["rotation"] = "1 MB"
+config["retention"] = 1
+
+logger.add("logs/zdppy/zdppy_log.log", **config)
 
 for i in range(100000):
-    logger.info("No matter added sinks, this message is not displayed")
-    logger.enable("my_library")
-    logger.info("This message however is propagated to the sinks")
+    logger.debug("debug日志")
+    logger.info("info日志")
+    logger.warning("warning日志")
+    logger.error("error日志")
 
 
 @logger.catch
