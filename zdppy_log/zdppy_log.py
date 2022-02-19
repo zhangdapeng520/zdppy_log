@@ -2,7 +2,7 @@ from loguru import logger
 import sys
 
 config = {
-    "format": "{time:YYYY-MM-DD at HH:mm:ss} | {level} | {file}:{line} | {message}",
+    "format": "{time:YYYY-MM-DD HH:mm:ss} | {level} | {file}:{line} | {message}",
     "level": "INFO",
     "rotation": "100 MB",
     "compression": "zip",
@@ -21,8 +21,9 @@ class Log:
     def __init__(self, log_file_path: str = "logs/zdppy/zdppy_log.log",
                  level: str = "INFO",
                  rotation: str = "100 MB",
-                 serialize: bool = True,
-                 retention: int = 10
+                 serialize: bool = False,
+                 retention: int = 10,
+                 debug: bool = True
                  ):
         # 初始化日志
         logger.remove()
@@ -43,9 +44,13 @@ class Log:
         self.retention = retention
         config["retention"] = retention
 
+        # 是否为debug模式
+        self.__debug = debug
+
         # 创建日志
         logger.add(log_file_path, **config)
-        logger.add(sys.stderr, level="DEBUG")
+        if self.__debug:
+            logger.add(sys.stderr, level="DEBUG")
         self.log = logger
 
     def catch(self):

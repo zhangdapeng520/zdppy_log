@@ -19,7 +19,7 @@ log2.warning("log2日志")
 log2.error("log2日志")
 log2.critical("log2日志")
 
-log3 = Log("logs/zdppy/zdppy_log3.log")
+log3 = Log("logs/zdppy/zdppy_log3.log", debug=False)
 log3.debug("log3日志")
 log3.info("log3日志")
 log3.warning("log3日志")
