@@ -1,5 +1,6 @@
 from .libs.loguru import logger
 import sys
+import os
 
 config = {
     "format": "{time:YYYY-MM-DD HH:mm:ss} | {level} | {file}:{line} | {message}",
@@ -20,14 +21,22 @@ class Log:
 
     def __init__(self, log_file_path: str = "logs/zdppy/zdppy_log.log",
                  level: str = "INFO",
-                 format:str = "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level}</level> | <cyan>{extra[module_name]}</cyan>:<cyan>{extra[func_name]}</cyan>:<cyan>{extra[line_no]}</cyan> | <level>{message}</level>",
+                 format: str = "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level}</level> | <cyan>{extra[module_name]}</cyan>:<cyan>{extra[func_name]}</cyan>:<cyan>{extra[line_no]}</cyan> | <level>{message}</level>",
                  rotation: str = "100 MB",
                  serialize: bool = False,
+                 full_path: bool = False,
                  retention: int = 10,
                  debug: bool = True
                  ):
         """
         创建日志对象
+        :param level 日志等级
+        :param format 日志格式
+        :param rotation 单个日志文件大小
+        :param serialize 是否开启格式化日志
+        :param full_path 是否启用全路径。默认关闭，开启后日志路径的模块路径显示为完整绝对路径。
+        :param retention 日志文件备份个数
+        :param debug 是否为开发环境
         """
         # 初始化日志
         logger.remove()
@@ -50,6 +59,9 @@ class Log:
 
         # 日志格式
         self.format = format
+
+        # 是否为全路径
+        self.full_path = full_path
 
         # 是否为debug模式
         self.__debug = debug
@@ -78,15 +90,18 @@ class Log:
         result = {}  # 存储信息
 
         # 获取被调用函数所在模块文件名
-        module_name = sys._getframe(1).f_code.co_filename
+        module_name = sys._getframe(2).f_code.co_filename
+        if not self.full_path:
+            (_, filename) = os.path.split(module_name)
+            module_name = filename
         result["module_name"] = module_name
 
         # 获取被调用函数名称
-        func_name = sys._getframe(1).f_code.co_name
+        func_name = sys._getframe(2).f_code.co_name
         result["func_name"] = func_name
 
         # 获取被调用函数在被调用时所处代码行数
-        line_no = sys._getframe(1).f_lineno
+        line_no = sys._getframe(2).f_lineno
         result["line_no"] = line_no
 
         # 返回结果
