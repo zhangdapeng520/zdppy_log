@@ -1,4 +1,4 @@
-from loguru import logger
+from .libs.loguru import logger
 import sys
 
 config = {

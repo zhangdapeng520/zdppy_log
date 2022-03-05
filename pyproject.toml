@@ -6,7 +6,6 @@ authors = ["zhangdapeng <pygosuperman@outlook.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-loguru = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 
