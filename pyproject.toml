@@ -1,8 +1,25 @@
 [tool.poetry]
 name = "zdppy_log"
-version = "0.1.5"
-description = "python日志工具"
+version = "0.1.7"
+description = "Python中用于记录日志的工具库，简单而优美，灵活而强大"
 authors = ["zhangdapeng <pygosuperman@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/zhangdapeng520/zdppy_log"
+repository = "https://github.com/zhangdapeng520/zdppy_log"
+keywords = ["poetry", "zhangdapeng", "zhangdapeng520", "log", "loguru"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+]
+include = [
+    "LICENSE",
+    "README.md",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

@@ -21,29 +21,29 @@ class Log:
 
     def __init__(self, log_file_path: str = "logs/zdppy/zdppy_log.log",
                  level: str = "INFO",
-                 format: str = "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level}</level> | <cyan>{extra[module_name]}</cyan>:<cyan>{extra[func_name]}</cyan>:<cyan>{extra[line_no]}</cyan> | <level>{message}</level>",
                  rotation: str = "100 MB",
                  serialize: bool = False,
                  full_path: bool = False,
                  retention: int = 10,
-                 debug: bool = True
+                 debug: bool = True,
+                 is_only_console: bool = False,
                  ):
         """
         创建日志对象
         :param level 日志等级
-        :param format 日志格式
         :param rotation 单个日志文件大小
         :param serialize 是否开启格式化日志
         :param full_path 是否启用全路径。默认关闭，开启后日志路径的模块路径显示为完整绝对路径。
         :param retention 日志文件备份个数
         :param debug 是否为开发环境
+        :param is_only_console 是否只输出到控制台
         """
         # 初始化日志
         logger.remove()
 
         # 日志等级
-        self.level = level
-        config["level"] = level
+        self.level = level.upper()
+        config["level"] = level.upper()
 
         # 日志大小
         self.rotation = rotation
@@ -66,91 +66,39 @@ class Log:
         # 是否为debug模式
         self.__debug = debug
 
-        # 创建文件日志
-        # 颜色说明：green 绿色 level 等级颜色 cyan 天蓝色
-        config["format"] = format
-        logger.add(log_file_path, **config)
+        # 是否只输出到控制台
+        self.__is_only_console = is_only_console
 
-        # 创建控制台日志
-        if self.__debug:
-            logger.add(sys.stderr, level="DEBUG", format=format)
-        self.log = logger
+        if is_only_console:
+            # 创建控制台日志
+            if self.__debug:
+                # logger.add(sys.stderr, level="DEBUG", format=format)
+                logger.add(sys.stderr, level="DEBUG")
+            else:
+                logger.add(sys.stderr, level=level.upper())
+            self.__set_logger_method(logger)
+        else:
+            # 创建文件日志
+            # 颜色说明：green 绿色 level 等级颜色 cyan 天蓝色
+            # config["format"] = format
+            logger.add(log_file_path, **config)
 
-    def catch(self):
-        """
-        捕获日志
-        :return:
-        """
-        return self.log.catch()
+            # 创建控制台日志
+            if self.__debug:
+                # logger.add(sys.stderr, level="DEBUG", format=format)
+                logger.add(sys.stderr, level="DEBUG")
+            self.__set_logger_method(logger)
+        # 捕获错误
+        self.catch = logger.catch
 
-    def __get_log_where(self):
+    def __set_logger_method(self, logger):
         """
-        获取日志的路径信息
+        设置日志方法
         """
-        result = {}  # 存储信息
-
-        # 获取被调用函数所在模块文件名
-        module_name = sys._getframe(2).f_code.co_filename
-        if not self.full_path:
-            (_, filename) = os.path.split(module_name)
-            module_name = filename
-        result["module_name"] = module_name
-
-        # 获取被调用函数名称
-        func_name = sys._getframe(2).f_code.co_name
-        result["func_name"] = func_name
-
-        # 获取被调用函数在被调用时所处代码行数
-        line_no = sys._getframe(2).f_lineno
-        result["line_no"] = line_no
-
-        # 返回结果
-        return result
-
-    def debug(self, *args, **kwargs):
-        """
-        记录DEBUG级别的日志
-        """
-        info = self.__get_log_where()
-        extra_logger = self.log.bind(**info)
-        return extra_logger.debug(*args, **kwargs)
-
-    def info(self, *args, **kwargs):
-        """
-        记录INFO级别的日志
-        """
-        info = self.__get_log_where()
-        extra_logger = self.log.bind(**info)
-        return extra_logger.info(*args, **kwargs)
-
-    def success(self, *args, **kwargs):
-        """
-        记录SUCCESS级别的日志
-        """
-        info = self.__get_log_where()
-        extra_logger = self.log.bind(**info)
-        return extra_logger.success(*args, **kwargs)
-
-    def warning(self, *args, **kwargs):
-        """
-        记录WARNING级别的日志
-        """
-        info = self.__get_log_where()
-        extra_logger = self.log.bind(**info)
-        return extra_logger.warning(*args, **kwargs)
-
-    def error(self, *args, **kwargs):
-        """
-        记录ERROR级别的日志
-        """
-        info = self.__get_log_where()
-        extra_logger = self.log.bind(**info)
-        return extra_logger.error(*args, **kwargs)
-
-    def critical(self, *args, **kwargs):
-        """
-        记录CRITICAL级别的日志
-        """
-        info = self.__get_log_where()
-        extra_logger = self.log.bind(**info)
-        return extra_logger.critical(*args, **kwargs)
+        # 日志方法
+        self.debug = logger.debug
+        self.info = logger.info
+        self.success = logger.success
+        self.warning = logger.warning
+        self.error = logger.error
+        self.critical = logger.critical

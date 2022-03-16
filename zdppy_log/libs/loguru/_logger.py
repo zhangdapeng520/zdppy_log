@@ -103,7 +103,6 @@ if sys.version_info >= (3, 6):
 else:
     from pathlib import PurePath as PathLike
 
-
 Level = namedtuple("Level", ["name", "no", "color", "icon"])
 
 start_time = aware_now()
@@ -112,8 +111,11 @@ context = ContextVar("loguru_context", default={})
 
 
 class Core:
+    """
+    日志核心类
+    """
     def __init__(self):
-        levels = [
+        levels = [  # 日志级别
             Level(
                 "TRACE",
                 _defaults.LOGURU_TRACE_NO,
@@ -217,19 +219,19 @@ class Logger:
         return "<loguru.logger handlers=%r>" % list(self._core.handlers.values())
 
     def add(
-        self,
-        sink,
-        *,
-        level=_defaults.LOGURU_LEVEL,
-        format=_defaults.LOGURU_FORMAT,
-        filter=_defaults.LOGURU_FILTER,
-        colorize=_defaults.LOGURU_COLORIZE,
-        serialize=_defaults.LOGURU_SERIALIZE,
-        backtrace=_defaults.LOGURU_BACKTRACE,
-        diagnose=_defaults.LOGURU_DIAGNOSE,
-        enqueue=_defaults.LOGURU_ENQUEUE,
-        catch=_defaults.LOGURU_CATCH,
-        **kwargs
+            self,
+            sink,
+            *,
+            level=_defaults.LOGURU_LEVEL,
+            format=_defaults.LOGURU_FORMAT,
+            filter=_defaults.LOGURU_FILTER,
+            colorize=_defaults.LOGURU_COLORIZE,
+            serialize=_defaults.LOGURU_SERIALIZE,
+            backtrace=_defaults.LOGURU_BACKTRACE,
+            diagnose=_defaults.LOGURU_DIAGNOSE,
+            enqueue=_defaults.LOGURU_ENQUEUE,
+            catch=_defaults.LOGURU_CATCH,
+            **kwargs
     ):
         r"""Add a handler sending log messages to a sink adequately configured.
 
@@ -1081,17 +1083,17 @@ class Logger:
         return AwaitableCompleter()
 
     def catch(
-        self,
-        exception=Exception,
-        *,
-        level="ERROR",
-        reraise=False,
-        onerror=None,
-        exclude=None,
-        default=None,
-        message="An error has been caught in function '{record[function]}', "
-        "process '{record[process].name}' ({record[process].id}), "
-        "thread '{record[thread].name}' ({record[thread].id}):"
+            self,
+            exception=Exception,
+            *,
+            level="ERROR",
+            reraise=False,
+            onerror=None,
+            exclude=None,
+            default=None,
+            message="An error has been caught in function '{record[function]}', "
+                    "process '{record[process].name}' ({record[process].id}), "
+                    "thread '{record[thread].name}' ({record[thread].id}):"
     ):
         """Return a decorator to automatically log possibly caught error in wrapped function.
 
@@ -1166,7 +1168,7 @@ class Logger:
         ...     1 / 0
         """
         if callable(exception) and (
-            not isclass(exception) or not issubclass(exception, BaseException)
+                not isclass(exception) or not issubclass(exception, BaseException)
         ):
             return self.catch()(exception)
 
@@ -1232,16 +1234,16 @@ class Logger:
         return Catcher(False)
 
     def opt(
-        self,
-        *,
-        exception=None,
-        record=False,
-        lazy=False,
-        colors=False,
-        raw=False,
-        capture=True,
-        depth=0,
-        ansi=False
+            self,
+            *,
+            exception=None,
+            record=False,
+            lazy=False,
+            colors=False,
+            raw=False,
+            capture=True,
+            depth=0,
+            ansi=False
     ):
         r"""Parametrize a logging call to slightly change generated log message.
 
