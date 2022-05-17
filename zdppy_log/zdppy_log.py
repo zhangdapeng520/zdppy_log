@@ -1,6 +1,5 @@
-from .libs.loguru import logger
+from .loguru import logger
 import sys
-import os
 
 config = {
     "format": "{time:YYYY-MM-DD HH:mm:ss} | {level} | {file}:{line} | {message}",
