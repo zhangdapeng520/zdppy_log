@@ -114,6 +114,7 @@ class Core:
     """
     日志核心类
     """
+
     def __init__(self):
         levels = [  # 日志级别
             Level(
@@ -1847,6 +1848,9 @@ class Logger:
                 yield from matches[:-1]
 
     def _log(self, level_id, static_level_no, from_decorator, options, message, args, kwargs):
+        """
+        记录日志的统一入口方法
+        """
         core = self._core
 
         if not core.handlers:
@@ -1953,6 +1957,22 @@ class Logger:
             log_record["message"] = colored_message.stripped
         elif args or kwargs:
             colored_message = None
+            # 记录日志的关键
+            # 自动记录args日志
+            if "{}" not in message and len(args) > 0:
+                sign = ""
+                for i in range(len(args)):
+                    sign += "{} "
+                message += sign
+
+            # 自动记录kwargs日志
+            if "{}" not in message and len(kwargs) > 0:
+                sign = ""
+                for k, v in kwargs.items():
+                    sign += f"{k}=" + "{" + k + "} "
+                message += " " + sign
+
+            # 记录日志
             log_record["message"] = message.format(*args, **kwargs)
         else:
             colored_message = None
@@ -1971,7 +1991,9 @@ class Logger:
         __self._log("TRACE", None, False, __self._options, __message, args, kwargs)
 
     def debug(__self, __message, *args, **kwargs):
-        r"""Log ``message.format(*args, **kwargs)`` with severity ``'DEBUG'``."""
+        """
+        记录debug日志
+        """
         __self._log("DEBUG", None, False, __self._options, __message, args, kwargs)
 
     def info(__self, __message, *args, **kwargs):
