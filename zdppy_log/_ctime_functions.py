@@ -3,7 +3,7 @@ import os
 
 def load_ctime_functions():
     if os.name == "nt":
-        from .. import win32_setctime
+        from . import win32_setctime
 
         def get_ctime(filepath):
             return os.stat(filepath).st_ctime

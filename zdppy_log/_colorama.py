@@ -25,12 +25,12 @@ def should_wrap(stream):
     if stream is not sys.__stdout__ and stream is not sys.__stderr__:
         return False
 
-    from ..colorama.win32 import winapi_test
+    from .colorama.win32 import winapi_test
 
     return winapi_test()
 
 
 def wrap(stream):
-    from ..colorama import AnsiToWin32
+    from .colorama import AnsiToWin32
 
     return AnsiToWin32(stream, convert=True, strip=False, autoreset=False).stream

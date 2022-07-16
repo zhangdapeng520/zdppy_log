@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zdppy_log"
-version = "0.1.9"
+version = "0.2.0"
 description = "Python中用于记录日志的工具库，简单而优美，灵活而强大"
 authors = ["zhangdapeng <pygosuperman@outlook.com>"]
 license = "MIT"

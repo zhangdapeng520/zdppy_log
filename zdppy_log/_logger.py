@@ -85,7 +85,7 @@ from multiprocessing import current_process
 from os.path import basename, splitext
 from threading import current_thread
 
-from . import _asyncio_loop, _colorama, _defaults, _filters
+from . import _colorama, _defaults, _asyncio_loop, _filters
 from ._better_exceptions import ExceptionFormatter
 from ._colorizer import Colorizer
 from ._contextvars import ContextVar
@@ -238,6 +238,12 @@ class Logger:
 
         Parameters
         ----------
+        sink 可以传入一个 file 对象，例如 sys.stderr 或者 open('file.log', 'w') 都可以。
+        sink 可以直接传入一个 str 字符串或者 pathlib.Path 对象，其实就是代表文件路径的，如果识别到是这种类型，它会自动创建对应路径的日志文件并将日志输出进去。
+        sink 可以是一个方法，可以自行定义输出实现。
+        sink 可以是一个 logging 模块的 Handler，比如 FileHandler、StreamHandler 等等，这样就可以实现自定义 Handler 的配置。
+        sink 还可以是一个自定义的类
+
         sink : |file-like object|_, |str|, |Path|, |callable|_, |coroutine function|_ or |Handler|
             An object in charge of receiving formatted logging messages and propagating them to an
             appropriate endpoint.
