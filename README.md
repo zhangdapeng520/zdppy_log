@@ -11,13 +11,13 @@ python的日志库
 ## 安装方式
 
 ```shell script
-pip install zdppy_log
+pip install log
 ```
 
 ## 使用方式
 
 ```python
-from zdppy_log import Log
+from log import Log
 
 log1 = Log("logs/zdppy/zdppy_log1.log")
 
@@ -61,7 +61,7 @@ log3.critical("log3日志")
 ### 案例1：基本使用
 
 ```python
-from zdppy_log import Log
+from log import Log
 
 log1 = Log("logs/zdppy/zdppy_log1.log")
 
@@ -83,7 +83,7 @@ log3.critical("log3日志")
 ### 案例2：捕获方法错误
 
 ```python
-from zdppy_log import Log
+from log import Log
 
 log1 = Log("logs/zdppy/zdppy_log1.log")
 
@@ -99,7 +99,7 @@ my_function(0, 0, 0)
 ### 案例3：只往控制台输出
 
 ```python
-from zdppy_log import Log
+from log import Log
 
 # 记录所有级别的日志到控制台
 log1 = Log(debug=True, is_only_console=True)
@@ -129,7 +129,7 @@ log3.critical("log3 critical")
 ### 案例4：同时输出到控制台和日志文件
 
 ```python
-from zdppy_log import Log
+from log import Log
 
 # 记录info级别的日志，并将所有级别日志输出到控制台
 log1 = Log(debug=True)
@@ -159,7 +159,7 @@ log3.critical("log3 critical")
 ### 案例5：日志序列化为JSON
 
 ```python
-from zdppy_log import Log
+from log import Log
 
 # 记录info级别的日志，并将所有级别日志输出到控制台
 log1 = Log(serialize=True, debug=True)
