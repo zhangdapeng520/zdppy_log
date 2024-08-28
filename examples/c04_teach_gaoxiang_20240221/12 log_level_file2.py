@@ -1,6 +1,6 @@
 import sys
 
-from log import logger
+from zdppy_log import logger
 
 logger.open_level_file()
 logger.debug("debug...")

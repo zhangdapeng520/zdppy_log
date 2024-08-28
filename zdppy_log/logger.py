@@ -41,7 +41,7 @@ class Log:
     日志对象
     """
 
-    def __init__(self, log_file_path: str = "log.log",
+    def __init__(self, log_file_path: str = "zdppy_log.zdppy_log",
                  level: str = "INFO",
                  rotation: str = "100 MB",
                  serialize: bool = False,

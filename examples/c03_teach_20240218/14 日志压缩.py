@@ -1,5 +1,5 @@
 import sys
-from log import logger
+from zdppy_log import logger
 
 # 删去import logger之后自动产生的handler，不删除的话会出现重复输出的现象
 logger.remove()
@@ -9,7 +9,7 @@ logger.remove()
 # rotation 日志切割： KB MB GB
 # compression 日志压缩： "gz", "bz2", "xz", "lzma", "tar", "tar.gz", "tar.bz2", "tar.xz", "zip"
 logger.add(sys.stdout, level="DEBUG")
-logger.add("tmp/{time}.log", level="DEBUG", rotation="200KB", compression="zip")
+logger.add("tmp/{time}.zdppy_log", level="DEBUG", rotation="200KB", compression="zip")
 
 # 输出日志
 for i in range(1000):

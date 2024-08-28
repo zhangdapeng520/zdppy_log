@@ -152,7 +152,7 @@ class Logger:
         Parameters
         ----------
         sink : 日志输出配置，使用示例：
-            自动生成日期占位的日志文件：runtime_{time}.log
+            自动生成日期占位的日志文件：runtime_{time}.zdppy_log
         level : |int| or |str|, optional
             应将记录的消息发送到接收器的最低严重级别。
         format : |str| or |callable|_, optional
@@ -222,10 +222,10 @@ class Logger:
 
         .. rubric:: The sink parameter
 
-        The ``sink`` handles incoming log messages and proceed to their writing somewhere and
+        The ``sink`` handles incoming zdppy_log messages and proceed to their writing somewhere and
         somehow. A sink can take many forms:
 
-        - A |file-like object|_ like ``sys.stderr`` or ``open("somefile.log", "w")``. Anything with
+        - A |file-like object|_ like ``sys.stderr`` or ``open("somefile.zdppy_log", "w")``. Anything with
           a ``.write()`` method is considered as a file-like object. Custom handlers may also
           implement ``flush()`` (called after each logged message), ``stop()`` (called at sink
           termination) and ``complete()`` (awaited by the eponymous method).
@@ -249,7 +249,7 @@ class Logger:
         .. rubric:: The logged message
 
         The logged message passed to all added sinks is nothing more than a string of the
-        formatted log, to which a special attribute is associated: the ``.record`` which is a dict
+        formatted zdppy_log, to which a special attribute is associated: the ``.record`` which is a dict
         containing all contextual information possibly needed (see below).
 
         Logged messages are formatted according to the ``format`` of the added sink. This format
@@ -266,7 +266,7 @@ class Logger:
         argument, and returning ``True`` if the message should be logged, ``False`` otherwise. If
         a string is used, only the records with the same ``name`` and its children will be allowed.
         One can also pass a ``dict`` mapping module names to minimum required level. In such case,
-        each log record will search for it's closest parent in the ``dict`` and use the associated
+        each zdppy_log record will search for it's closest parent in the ``dict`` and use the associated
         level as the filter. The ``dict`` values can be ``int`` severity, ``str`` level name or
         ``True`` and ``False`` to respectively authorize and discard all module logs
         unconditionally. In order to set a default level, the ``""`` module name should be used as
@@ -285,7 +285,7 @@ class Logger:
         example, it allows to display some debugging information to a developer, while hiding it to
         the end user running the application.
 
-        The ``level`` attribute of every added sink controls the minimum threshold from which log
+        The ``level`` attribute of every added sink controls the minimum threshold from which zdppy_log
         messages are allowed to be emitted. While using the ``logger``, you are in charge of
         configuring the appropriate granularity of your logs. It is possible to add even more custom
         levels by using the |level| method.
@@ -342,7 +342,7 @@ class Logger:
         | function   | The function from which the     | None                       |
         |            | logging call was made           |                            |
         +------------+---------------------------------+----------------------------+
-        | level      | The severity used to log the    | ``name`` (default),        |
+        | level      | The severity used to zdppy_log the    | ``name`` (default),        |
         |            | message                         | ``no``, ``icon``           |
         +------------+---------------------------------+----------------------------+
         | line       | The line number in the source   | None                       |
@@ -486,12 +486,12 @@ class Logger:
         selected if they match the pattern ``"basename(.*).ext(.*)"`` (possible time fields are
         beforehand replaced with ``.*``) based on the sink file. This parameter accepts:
 
-        - an |int| which indicates the number of log files to keep, while older files are removed.
+        - an |int| which indicates the number of zdppy_log files to keep, while older files are removed.
         - a |timedelta| which specifies the maximum age of files to keep.
         - a |str| for human-friendly parametrization of the maximum age of files to keep.
           Examples: ``"1 week, 3 days"``, ``"2 months"``, ...
         - a |callable|_ which will be invoked before the retention process. It should accept the
-          list of log files as argument and process to whatever it wants (moving files, removing
+          list of zdppy_log files as argument and process to whatever it wants (moving files, removing
           them, etc.).
 
         The ``compression`` happens at rotation or at sink stop if rotation is ``None``. This
@@ -501,7 +501,7 @@ class Logger:
           of: ``"gz"``, ``"bz2"``, ``"xz"``, ``"lzma"``, ``"tar"``, ``"tar.gz"``, ``"tar.bz2"``,
           ``"tar.xz"``, ``"zip"``.
         - a |callable|_ which will be invoked before file termination. It should accept the path of
-          the log file as argument and process to whatever it wants (custom compression, network
+          the zdppy_log file as argument and process to whatever it wants (custom compression, network
           sending, removing it, etc.).
 
         Either way, if you use a custom function designed according to your preferences, you must be
@@ -528,7 +528,7 @@ class Logger:
 
         Note that when logging a message with ``opt(colors=True)``, color tags present in the
         formatting arguments (``args`` and ``kwargs``) are completely ignored. This is important if
-        you need to log strings containing markups that might interfere with the color tags (in this
+        you need to zdppy_log strings containing markups that might interfere with the color tags (in this
         case, do not use f-string).
 
         Here are the available tags (note that compatibility may vary depending on terminal):
@@ -580,7 +580,7 @@ class Logger:
         .. rubric:: The environment variables
 
         The default values of sink parameters can be entirely customized. This is particularly
-        useful if you don't like the log format of the pre-configured sink.
+        useful if you don't like the zdppy_log format of the pre-configured sink.
 
         Each of the |add| default parameter can be modified by setting the ``LOGURU_[PARAM]``
         environment variable. For example on Linux: ``export LOGURU_FORMAT="{time} - {message}"``
@@ -601,12 +601,12 @@ class Logger:
         --------
         >>> logger.add(sys.stdout, format="{time} - {level} - {message}", filter="sub.module")
 
-        >>> logger.add("file_{time}.log", level="TRACE", rotation="100 MB")
+        >>> logger.add("file_{time}.zdppy_log", level="TRACE", rotation="100 MB")
 
         >>> def debug_only(record):
         ...     return record["level"].name == "DEBUG"
         ...
-        >>> logger.add("debug.log", filter=debug_only)  # Other levels are filtered out
+        >>> logger.add("debug.zdppy_log", filter=debug_only)  # Other levels are filtered out
 
         >>> def my_sink(message):
         ...     record = message.record
@@ -723,7 +723,7 @@ class Logger:
             terminator = "\n"
             exception_prefix = ""
         else:
-            raise TypeError("Cannot log to objects of type '%s'" % type(sink).__name__)
+            raise TypeError("Cannot zdppy_log to objects of type '%s'" % type(sink).__name__)
 
         if kwargs:
             raise TypeError("add() got an unexpected keyword argument '%s'" % next(iter(kwargs)))
@@ -989,7 +989,7 @@ class Logger:
                     "process '{record[process].name}' ({record[process].id}), "
                     "thread '{record[thread].name}' ({record[thread].id}):"
     ):
-        """Return a decorator to automatically log possibly caught error in wrapped function.
+        """Return a decorator to automatically zdppy_log possibly caught error in wrapped function.
 
         This is useful to ensure unexpected exceptions are logged, the entire program can be
         wrapped by this method. This is also very useful to decorate |Thread.run| methods while
@@ -1025,7 +1025,7 @@ class Logger:
         Returns
         -------
         :term:`decorator` / :term:`context manager`
-            An object that can be used to decorate a function or as a context manager to log
+            An object that can be used to decorate a function or as a context manager to zdppy_log
             exceptions possibly caught.
 
         Examples
@@ -1139,7 +1139,7 @@ class Logger:
             depth=0,
             ansi=False
     ):
-        r"""Parametrize a logging call to slightly change generated log message.
+        r"""Parametrize a logging call to slightly change generated zdppy_log message.
 
         Note that it's not possible to chain |opt| calls, the last one takes precedence over the
         others as it will "reset" the options to their default values.
@@ -1148,11 +1148,11 @@ class Logger:
         ----------
         exception : |bool|, |tuple| or |Exception|, optional
             If it does not evaluate as ``False``, the passed exception is formatted and added to the
-            log message. It could be an |Exception| object or a ``(type, value, traceback)`` tuple,
+            zdppy_log message. It could be an |Exception| object or a ``(type, value, traceback)`` tuple,
             otherwise the exception information is retrieved from |sys.exc_info|.
         record : |bool|, optional
             If ``True``, the record dict contextualizing the logging call can be used to format the
-            message by using ``{record[key]}`` in the log message.
+            message by using ``{record[key]}`` in the zdppy_log message.
         lazy : |bool|, optional
             If ``True``, the logging call attribute to format the message should be functions which
             will be called only if the level is high enough. This can be used to avoid expensive
@@ -1313,7 +1313,7 @@ class Logger:
         The ``patcher`` may be used to update the record on-the-fly before it's propagated to the
         handlers. This allows the "extra" dict to be populated with dynamic values and also permits
         advanced modifications of the record emitted while logging a message. The function is called
-        once before sending the log message to the different handlers.
+        once before sending the zdppy_log message to the different handlers.
 
         It is recommended to apply modification on the ``record["extra"]`` dict rather than on the
         ``record`` dict itself, as some values are used internally by `Loguru`, and modify them may
@@ -1336,7 +1336,7 @@ class Logger:
         --------
         >>> logger.add(sys.stderr, format="{extra[utc]} {message}")
         >>> logger = logger.patch(lambda record: record["extra"].update(utc=datetime.utcnow())
-        >>> logger.info("That's way, you can log messages with time displayed in UTC")
+        >>> logger.info("That's way, you can zdppy_log messages with time displayed in UTC")
 
         >>> def wrapper(func):
         ...     @functools.wraps(func)
@@ -1348,7 +1348,7 @@ class Logger:
         >>> def recv_record_from_network(pipe):
         ...     record = pickle.loads(pipe.read())
         ...     level, message = record["level"], record["message"]
-        ...     logger.patch(lambda r: r.update(record)).log(level, message)
+        ...     logger.patch(lambda r: r.update(record)).zdppy_log(level, message)
         """
         *options, _, extra = self._options
         return Logger(self._core, *options, patcher, extra)
@@ -1357,7 +1357,7 @@ class Logger:
         """Add, update or retrieve a logging level.
 
         Logging levels are defined by their ``name`` to which a severity ``no``, an ansi ``color``
-        tag and an ``icon`` are associated and possibly modified at run-time. To |log| to a custom
+        tag and an ``icon`` are associated and possibly modified at run-time. To |zdppy_log| to a custom
         level, you should necessarily use its name, the severity number is not linked back to levels
         name (this implies that several levels can share the same severity).
 
@@ -1399,7 +1399,7 @@ class Logger:
         1
         >>> logger.level("CUSTOM", no=15, color="<blue>", icon="@")
         Level(name='CUSTOM', no=15, color='<blue>', icon='@')
-        >>> logger.log("CUSTOM", "Logging...")
+        >>> logger.zdppy_log("CUSTOM", "Logging...")
         15 @ Logging...
         >>> logger.level("WARNING", icon=r"/!\\")
         Level(name='WARNING', no=30, color='<yellow><bold>', icon='/!\\\\')
@@ -1545,7 +1545,7 @@ class Logger:
         >>> logger.configure(
         ...     handlers=[
         ...         dict(sink=sys.stderr, format="[{time}] {message}"),
-        ...         dict(sink="file.log", enqueue=True, serialize=True),
+        ...         dict(sink="file.zdppy_log", enqueue=True, serialize=True),
         ...     ],
         ...     levels=[dict(name="NEW", no=13, icon="¤", color="")],
         ...     extra={"common_to_all": "default"},
@@ -1641,14 +1641,14 @@ class Logger:
         Parameters
         ----------
         file : |str|, |Path| or |file-like object|_
-            The path of the log file to be parsed, or an already opened file object.
+            The path of the zdppy_log file to be parsed, or an already opened file object.
         pattern : |str| or |re.Pattern|_
             The regex to use for logs parsing, it should contain named groups which will be included
             in the returned dict.
         cast : |callable|_ or |dict|, optional
             A function that should convert in-place the regex groups parsed (a dict of string
             values) to more appropriate types. If a dict is passed, it should be a mapping between
-            keys of parsed log dict and the function that should be used to convert the associated
+            keys of parsed zdppy_log dict and the function that should be used to convert the associated
             value.
         chunk : |int|, optional
             The number of bytes read while iterating through the logs, this avoids having to load
@@ -1662,21 +1662,21 @@ class Logger:
 
         Examples
         --------
-        >>> reg = r"(?P<lvl>[0-9]+): (?P<msg>.*)"    # If log format is "{level.no} - {message}"
-        >>> for e in logger.parse("file.log", reg):  # A file line could be "10 - A debug message"
+        >>> reg = r"(?P<lvl>[0-9]+): (?P<msg>.*)"    # If zdppy_log format is "{level.no} - {message}"
+        >>> for e in logger.parse("file.zdppy_log", reg):  # A file line could be "10 - A debug message"
         ...     print(e)                             # => {'lvl': '10', 'msg': 'A debug message'}
 
         >>> caster = dict(lvl=int)                   # Parse 'lvl' key as an integer
-        >>> for e in logger.parse("file.log", reg, cast=caster):
+        >>> for e in logger.parse("file.zdppy_log", reg, cast=caster):
         ...     print(e)                             # => {'lvl': 10, 'msg': 'A debug message'}
 
         >>> def cast(groups):
         ...     if "date" in groups:
         ...         groups["date"] = datetime.strptime(groups["date"], "%Y-%m-%d %H:%M:%S")
         ...
-        >>> with open("file.log") as file:
-        ...     for log in logger.parse(file, reg, cast=cast):
-        ...         print(log["date"], log["something_else"])
+        >>> with open("file.zdppy_log") as file:
+        ...     for zdppy_log in logger.parse(file, reg, cast=cast):
+        ...         print(zdppy_log["date"], zdppy_log["something_else"])
         """
         if isinstance(file, (str, PathLike)):
             should_close = True
@@ -1999,9 +1999,9 @@ class Logger:
             self.add(sys.stdout, level="DEBUG")
 
         # 日志后缀
-        suffix = ".log"
+        suffix = ".zdppy_log"
         if is_time:
-            suffix = "{time}.log"
+            suffix = "{time}.zdppy_log"
 
         # 添加不同级别的日志
         if is_info:

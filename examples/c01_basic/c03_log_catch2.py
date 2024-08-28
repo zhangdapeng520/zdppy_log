@@ -1,4 +1,4 @@
-from log import logger
+from zdppy_log import logger
 
 
 @logger.catch

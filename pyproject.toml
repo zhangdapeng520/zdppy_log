@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "zdppy-log"
+version = "0.2.1"
+description = "Python操作日志的底层核心框架"
+authors = ["张大鹏 <1156956636@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

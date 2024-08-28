@@ -1,4 +1,4 @@
-from log import logger
+from zdppy_log import logger
 
 
 def init():
@@ -7,5 +7,5 @@ def init():
 
 
 def init_logger():
-    logger.add("../tmp/logs/log.log")
+    logger.add("../tmp/logs/zdppy_log.zdppy_log")
     logger.debug("debug111")

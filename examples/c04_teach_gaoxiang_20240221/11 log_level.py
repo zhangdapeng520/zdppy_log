@@ -1,6 +1,6 @@
 import sys
 
-from log import logger
+from zdppy_log import logger
 
 logger.debug("debug...")
 logger.info("info...")

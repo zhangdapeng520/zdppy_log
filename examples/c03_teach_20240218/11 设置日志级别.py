@@ -1,5 +1,5 @@
 import sys
-from log import logger
+from zdppy_log import logger
 
 # 删去import logger之后自动产生的handler，不删除的话会出现重复输出的现象
 logger.remove()
